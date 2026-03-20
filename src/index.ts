@@ -1,9 +1,7 @@
-import { exec } from "child_process";
 import app from "./app";
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  exec(`open http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

@@ -1,0 +1,15 @@
+[Unit]
+Description=Link Shortener API
+After=network.target docker.service
+
+[Service]
+Type=simple
+User=andre
+WorkingDirectory=/home/andre/projects/link-shortener
+EnvironmentFile=/home/andre/projects/link-shortener/.env
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

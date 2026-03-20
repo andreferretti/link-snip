@@ -72,5 +72,67 @@ curl http://localhost:3000/stats/top -H "Authorization: Bearer YOUR_TOKEN"
 curl http://localhost:3000/stats/link/1 -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
-Temporary token, don't delete (useful while testing)
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTc3MzgzMjA5NCwiZXhwIjoxNzc0NDM2ODk0fQ.63Hfigu06fL39DaXrUg1wKe55TllPkXAkwSF622HNRU
+## Self-hosting
+
+The app is designed to run on a Linux VPS with [Caddy](https://caddyserver.com/) as the reverse proxy. Caddy handles HTTPS automatically.
+
+**Prerequisites**: Node.js 20+, Docker, Caddy
+
+### First-time server setup
+
+```bash
+# Clone the repo
+git clone https://github.com/andferretti/link-shortener.git
+cd link-shortener
+
+# Install dependencies and build
+npm install
+npm run build
+
+# Start Postgres
+docker compose up -d
+
+# Create .env from template and set a real JWT_SECRET
+cp .env.example .env
+sed -i "s/change-me-to-a-random-string/$(openssl rand -hex 32)/" .env
+
+# Run database migrations
+npm run migrate
+
+# Install the systemd service (keeps the app running and restarts on crash)
+sudo cp link-shortener.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable link-shortener
+sudo systemctl start link-shortener
+```
+
+> **Note**: The included `link-shortener.service` assumes the app lives at
+> `/home/andre/projects/link-shortener`. Edit the `WorkingDirectory` and
+> `EnvironmentFile` paths in the service file if your setup differs.
+
+### Caddy config
+
+Add a site block to your Caddyfile (usually `/etc/caddy/Caddyfile`):
+
+```
+your-domain.com {
+    reverse_proxy localhost:3000
+}
+```
+
+Then reload Caddy:
+
+```bash
+sudo systemctl reload caddy
+```
+
+### Deploying updates
+
+```bash
+cd /path/to/link-shortener
+git pull
+npm install
+npm run build
+npm run migrate
+sudo systemctl restart link-shortener
+```
