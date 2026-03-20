@@ -1,5 +1,7 @@
 # Link Shortener
 
+> Short links, long memories.
+
 ## One-time setup
 
 ```bash
