@@ -328,7 +328,6 @@ function renderLinks(links) {
         <div class="link-original" title="${escHtml(link.original_url)}">${escHtml(truncate(link.original_url, 65))}</div>
         <div class="link-meta">
           <span class="link-clicks">📊 ${clicks} click${clicks === 1 ? '' : 's'}</span>
-          <span class="link-date">${relativeTime(link.created_at)}</span>
         </div>
       </div>
       <button class="link-delete" title="Delete link" data-id="${link.id}">✕</button>

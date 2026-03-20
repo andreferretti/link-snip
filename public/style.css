@@ -608,6 +608,9 @@ main {
 
 /* ── Responsive ── */
 @media (max-width: 520px) {
+  /* Prevent iOS Safari from zooming on input focus (requires font-size >= 16px) */
+  input, textarea, select { font-size: 16px !important; }
+
   main { padding: 0 16px 20px; }
   .hero { padding: 28px 0 16px; }
   .shorten-card { padding: 16px; }
