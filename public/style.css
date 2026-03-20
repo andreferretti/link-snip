@@ -407,19 +407,19 @@ main {
 .link-short-url:hover { text-decoration: underline; }
 
 .link-copy-icon {
-  background: none;
+  background: var(--border);
   border: none;
   cursor: pointer;
   color: var(--primary);
-  padding: 4px 6px;
+  padding: 4px 8px;
   border-radius: 6px;
   font-size: 17px;
   flex-shrink: 0;
   transition: background var(--ease), color var(--ease);
   line-height: 1;
 }
-.link-copy-icon:hover { background: var(--primary-light); }
-.link-copy-icon.copied { color: var(--success); }
+.link-copy-icon:hover { background: #d1d8e2; }
+.link-copy-icon.copied { background: var(--success-light); color: var(--success); }
 
 .link-original {
   font-size: 13px;
@@ -451,16 +451,16 @@ main {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--text-muted);
+  color: var(--error);
   padding: 6px 8px;
   border-radius: var(--radius-sm);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
   flex-shrink: 0;
-  transition: background var(--ease), color var(--ease);
+  transition: background var(--ease);
   line-height: 1;
 }
-.link-delete:hover { background: var(--error-light); color: var(--error); }
+.link-delete:hover { background: var(--error-light); }
 
 /* ── Modal ── */
 .modal-overlay {
