@@ -323,7 +323,7 @@ function renderLinks(links) {
       <div class="link-card-body">
         <div class="link-short-row">
           <a class="link-short-url" href="${escHtml(shortUrl)}" target="_blank" rel="noopener">${escHtml(shortDisp)}</a>
-          <button class="link-copy-icon" title="Copy short link" data-url="${escHtml(shortUrl)}">⧉</button>
+          <button class="link-copy-icon" title="Copy short link" data-url="${escHtml(shortUrl)}">Copy</button>
         </div>
         <div class="link-original" title="${escHtml(link.original_url)}">${escHtml(truncate(link.original_url, 65))}</div>
         <div class="link-meta">
@@ -341,7 +341,7 @@ function renderLinks(links) {
         this.classList.add('copied');
         showToast('Copied to clipboard!');
         setTimeout(() => {
-          this.textContent = '⧉';
+          this.textContent = 'Copy';
           this.classList.remove('copied');
         }, 2000);
       } catch { /* silent */ }

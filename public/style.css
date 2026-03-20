@@ -407,25 +407,21 @@ main {
 .link-short-url:hover { text-decoration: underline; }
 
 .link-copy-icon {
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(200, 210, 230, 0.7);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.8);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: var(--primary);
+  border: none;
   cursor: pointer;
-  color: var(--primary);
-  padding: 3px 6px;
-  border-radius: 6px;
-  font-size: 16px;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
   flex-shrink: 0;
-  transition: background var(--ease), box-shadow var(--ease);
-  line-height: 1;
+  transition: background var(--ease);
+  line-height: 1.4;
+  letter-spacing: 0.2px;
 }
-.link-copy-icon:hover {
-  background: rgba(255,255,255,0.85);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
-}
-.link-copy-icon.copied { background: var(--success-light); color: var(--success); border-color: var(--success-border); }
+.link-copy-icon:hover { background: var(--primary-hover); }
+.link-copy-icon.copied { background: var(--success); }
 
 .link-original {
   font-size: 13px;
