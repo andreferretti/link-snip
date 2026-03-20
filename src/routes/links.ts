@@ -9,16 +9,24 @@ const FREE_LINK_LIMIT = 2;
 
 // POST /links — create a short link (authenticated or anonymous)
 router.post("/", optionalAuth, async (req: Request, res: Response) => {
-  const { url } = req.body;
+  let { url } = req.body;
 
-  if (!url) {
+  if (!url || !url.trim()) {
     res.status(400).json({ error: "url is required" });
     return;
   }
 
+  url = url.trim();
+
+  // Auto-prepend https:// if no protocol is provided
+  if (!/^https?:\/\//i.test(url)) {
+    url = `https://${url}`;
+  }
+
   // Basic URL validation
   try {
-    new URL(url);
+    const parsed = new URL(url);
+    if (!parsed.hostname.includes(".")) throw new Error("no TLD");
   } catch {
     res.status(400).json({ error: "Invalid URL" });
     return;
@@ -82,6 +90,24 @@ router.get("/", requireAuth, async (req: Request, res: Response) => {
   );
 
   res.json({ links: rows });
+});
+
+// DELETE /links/:id — delete a link you own
+router.delete("/:id", requireAuth, async (req: Request, res: Response) => {
+  const linkId = parseInt(req.params.id as string);
+
+  // Only delete if the link belongs to this user
+  const { rowCount } = await pool.query(
+    "DELETE FROM links WHERE id = $1 AND user_id = $2",
+    [linkId, req.user!.userId]
+  );
+
+  if (rowCount === 0) {
+    res.status(404).json({ error: "Link not found" });
+    return;
+  }
+
+  res.json({ deleted: true });
 });
 
 export default router;

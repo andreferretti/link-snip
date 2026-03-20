@@ -13,7 +13,23 @@ router.get("/:code", async (req: Request, res: Response) => {
   );
 
   if (rows.length === 0) {
-    res.status(404).json({ error: "Short link not found" });
+    res.status(404).send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Link Not Found</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container" style="text-align:center; margin-top:4rem;">
+    <h1>404</h1>
+    <p style="margin-bottom:1.5rem;">This short link doesn't exist.</p>
+    <a href="/" style="color:#0066cc;">Go to homepage</a>
+  </div>
+</body>
+</html>`);
     return;
   }
 

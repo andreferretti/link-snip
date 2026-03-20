@@ -80,6 +80,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
   }
 
   setLoggedIn(data.token, data.user.email);
+  showFlash("Account created!");
 });
 
 // --- Login ---
@@ -105,6 +106,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   }
 
   setLoggedIn(data.token, data.user.email);
+  showFlash("Logged in!");
 });
 
 // --- Shorten ---
@@ -184,9 +186,31 @@ async function loadMyLinks() {
         <td><a href="${link.original_url}" target="_blank">${original}</a></td>
         <td>${link.click_count}</td>
         <td>${date}</td>
+        <td><button class="delete-btn" data-id="${link.id}">Delete</button></td>
       </tr>`;
     })
     .join("");
+}
+
+// --- Delete link ---
+document.getElementById("links-body").addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("delete-btn")) return;
+  const id = e.target.dataset.id;
+  const res = await fetch(`${API}/links/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (res.ok) loadMyLinks();
+});
+
+// --- Flash message ---
+function showFlash(message) {
+  const el = document.createElement("div");
+  el.textContent = message;
+  el.style.cssText =
+    "position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:0.5rem 1.2rem;border-radius:4px;font-size:0.9rem;z-index:999;";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2000);
 }
 
 // --- Init ---

@@ -39,6 +39,6 @@ describe("GET /:code (redirect)", () => {
     const res = await request(app).get("/nope123");
 
     expect(res.status).toBe(404);
-    expect(res.body.error).toMatch(/not found/i);
+    expect(res.text).toMatch(/doesn't exist/i);
   });
 });
