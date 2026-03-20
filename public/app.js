@@ -165,13 +165,16 @@ async function loadMyLinks() {
   const data = await res.json();
   const tbody = document.getElementById("links-body");
   const noLinks = document.getElementById("no-links");
+  const linksTable = document.getElementById("links-table");
 
   if (data.links.length === 0) {
     tbody.innerHTML = "";
+    linksTable.hidden = true;
     noLinks.hidden = false;
     return;
   }
 
+  linksTable.hidden = false;
   noLinks.hidden = true;
   tbody.innerHTML = data.links
     .map((link) => {
