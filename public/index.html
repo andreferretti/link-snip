@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LinkSnip</title>
+  <title>LinkSnip — URL Shortener</title>
+  <meta name="description" content="Shorten any URL instantly. Free, fast, no account required.">
   <meta property="og:title" content="LinkSnip">
   <meta property="og:description" content="Short links, long memories.">
   <meta property="og:image" content="/og-image.png">
@@ -11,80 +12,130 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>LinkSnip</h1>
 
-    <!-- Auth section -->
-    <div id="auth-section">
-      <div id="logged-out">
-        <div class="tabs">
-          <button class="tab active" data-tab="shorten-tab">Shorten a link</button>
-          <button class="tab" data-tab="login-tab">Login</button>
-          <button class="tab" data-tab="register-tab">Register</button>
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="/">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">LinkSnip</span>
+      </a>
+      <div class="header-auth" id="headerAuth">
+        <button class="btn btn-ghost btn-sm" id="btnLogin">Log in</button>
+        <button class="btn btn-primary btn-sm" id="btnRegister">Sign up</button>
+      </div>
+      <div class="header-user hidden" id="headerUser">
+        <span class="user-email" id="userEmailDisplay"></span>
+        <button class="btn btn-ghost btn-sm" id="btnLogout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <h1 class="hero-title">Shorten any URL</h1>
+      <p class="hero-subtitle">Fast, free — no account required</p>
+
+      <div class="shorten-card">
+        <form id="shortenForm">
+          <div class="input-row">
+            <input
+              type="url"
+              id="urlInput"
+              class="url-input"
+              placeholder="Paste your long URL here…"
+              required
+              autocomplete="off"
+              spellcheck="false"
+            >
+            <button type="submit" class="btn btn-primary shorten-btn" id="shortenBtn">
+              <span class="btn-label">Shorten</span>
+              <span class="btn-spinner hidden"></span>
+            </button>
+          </div>
+          <div class="error-msg hidden" id="shortenError"></div>
+        </form>
+
+        <div class="result hidden" id="result">
+          <div class="result-divider"></div>
+          <div class="result-label">Your short link is ready</div>
+          <div class="result-row">
+            <input type="text" class="result-input" id="resultUrl" readonly>
+            <button class="btn btn-copy" id="copyBtn">
+              <span class="copy-label">Copy</span>
+            </button>
+          </div>
+          <div class="result-footer">
+            <span class="badge badge-info hidden" id="existingBadge">Already shortened</span>
+            <a id="resultLink" href="#" target="_blank" rel="noopener" class="result-open">Open ↗</a>
+          </div>
         </div>
       </div>
-      <div id="logged-in" hidden>
-        <p>Logged in as <strong id="user-email"></strong></p>
-        <button id="logout-btn">Logout</button>
-      </div>
-    </div>
+    </section>
 
-    <!-- Shorten tab -->
-    <div id="shorten-tab" class="tab-content active">
-      <form id="shorten-form">
-        <input type="text" id="url-input" placeholder="Paste a URL to shorten" required>
-        <button type="submit">Shorten</button>
-      </form>
-      <div id="shorten-result" hidden>
-        <p>Short URL:</p>
-        <div class="result-row">
-          <a id="short-url" href="#" target="_blank"></a>
-          <button id="copy-btn">Copy</button>
+    <section class="links-section hidden" id="linksSection">
+      <div class="links-header">
+        <h2 class="links-title">My Links</h2>
+        <span class="links-count hidden" id="linksCount"></span>
+      </div>
+      <div class="links-empty hidden" id="linksEmpty">
+        <div class="empty-icon">🔗</div>
+        <p>No links yet — shorten one above!</p>
+      </div>
+      <div class="links-grid" id="linksGrid"></div>
+    </section>
+
+  </main>
+
+  <!-- Auth Modal -->
+  <div class="modal-overlay hidden" id="modalOverlay">
+    <div class="modal" id="authModal" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="login">Log in</button>
+        <button class="modal-tab" data-tab="register">Sign up</button>
+      </div>
+
+      <!-- Login -->
+      <form class="auth-form" id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="email">
         </div>
-        <p id="existing-note" hidden>This URL was already shortened.</p>
-      </div>
-      <p id="shorten-error" class="error" hidden></p>
-    </div>
-
-    <!-- Login tab -->
-    <div id="login-tab" class="tab-content">
-      <form id="login-form">
-        <input type="email" id="login-email" placeholder="Email" required>
-        <input type="password" id="login-password" placeholder="Password" required>
-        <button type="submit">Login</button>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <div class="error-msg hidden" id="loginError"></div>
+        <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+          <span class="btn-label">Log in</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
       </form>
-      <p id="login-error" class="error" hidden></p>
-    </div>
 
-    <!-- Register tab -->
-    <div id="register-tab" class="tab-content">
-      <form id="register-form">
-        <input type="email" id="register-email" placeholder="Email" required>
-        <input type="password" id="register-password" placeholder="Password (min 8 chars)" required minlength="8">
-        <button type="submit">Register</button>
+      <!-- Register -->
+      <form class="auth-form hidden" id="registerForm" novalidate>
+        <div class="form-group">
+          <label for="registerEmail">Email</label>
+          <input type="email" id="registerEmail" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="registerPassword">Password</label>
+          <input type="password" id="registerPassword" placeholder="Min. 8 characters" required minlength="8" autocomplete="new-password">
+        </div>
+        <div class="error-msg hidden" id="registerError"></div>
+        <button type="submit" class="btn btn-primary btn-full" id="registerBtn">
+          <span class="btn-label">Create account</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+        <p class="form-note">We'll never email you — your address is just for login.</p>
       </form>
-      <p class="hint">We'll never send you emails. Your address is just used to log in.</p>
-      <p id="register-error" class="error" hidden></p>
-    </div>
-
-    <!-- My Links (shown when logged in) -->
-    <div id="my-links" hidden>
-      <h2>My Links</h2>
-      <table id="links-table">
-        <thead>
-          <tr>
-            <th>Short URL</th>
-            <th>Original URL</th>
-            <th>Clicks</th>
-            <th>Created</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="links-body"></tbody>
-      </table>
-      <p id="no-links" hidden>No links yet. Shorten one above!</p>
     </div>
   </div>
+
+  <!-- Toast -->
+  <div class="toast hidden" id="toast"></div>
 
   <script src="/app.js"></script>
 </body>
