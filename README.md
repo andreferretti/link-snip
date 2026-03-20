@@ -1,4 +1,8 @@
-# Link Shortener
+<p align="center">
+  <img src="public/banner.png" alt="LinkSnip" />
+</p>
+
+# LinkSnip
 
 > Short links, long memories.
 

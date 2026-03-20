@@ -1,4 +1,4 @@
-name: link-shortener-claude
+name: link-snip
 
 services:
   db:

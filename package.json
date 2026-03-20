@@ -1,5 +1,5 @@
 {
-  "name": "link-shortener-claude",
+  "name": "link-snip",
   "version": "1.0.0",
   "description": "URL shortener API with click tracking",
   "main": "dist/index.js",
