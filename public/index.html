@@ -39,14 +39,16 @@
       <div class="shorten-card">
         <form id="shortenForm">
           <div class="input-row">
+            <!-- type="text" intentional: JS normalises bare domains (x.com → https://x.com) before sending -->
             <input
-              type="url"
+              type="text"
               id="urlInput"
               class="url-input"
               placeholder="Paste your long URL here…"
               required
               autocomplete="off"
               spellcheck="false"
+              inputmode="url"
             >
             <button type="submit" class="btn btn-primary shorten-btn" id="shortenBtn">
               <span class="btn-label">Shorten</span>

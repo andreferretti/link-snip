@@ -230,7 +230,10 @@ shortenForm.addEventListener('submit', async e => {
   result.classList.add('hidden');
   setLoading(shortenBtn, true);
 
-  const url = urlInput.value.trim();
+  // Normalise bare domains: x.com → https://x.com, www.x.com → https://www.x.com
+  let url = urlInput.value.trim();
+  if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+
   const headers = { 'Content-Type': 'application/json' };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
