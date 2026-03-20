@@ -88,8 +88,8 @@ The app is designed to run on a Linux VPS with [Caddy](https://caddyserver.com/)
 
 ```bash
 # Clone the repo
-git clone https://github.com/andferretti/link-shortener.git
-cd link-shortener
+git clone https://github.com/andreferretti/link-snip.git
+cd link-snip
 
 # Install dependencies and build
 npm install
@@ -114,7 +114,7 @@ sudo systemctl start link-shortener
 
 > **Note**: The included `link-shortener.service` assumes the app lives at
 > `/home/andre/projects/link-shortener`. Edit the `WorkingDirectory` and
-> `EnvironmentFile` paths in the service file if your setup differs.
+> `EnvironmentFile` paths if your setup differs.
 
 ### Caddy config
 
@@ -135,7 +135,7 @@ sudo systemctl reload caddy
 ### Deploying updates
 
 ```bash
-cd /path/to/link-shortener
+cd /path/to/link-snip
 git pull
 npm install
 npm run build
