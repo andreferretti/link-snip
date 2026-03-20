@@ -599,6 +599,14 @@ main {
   to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
 
+/* ── Guest mode: no scroll on mobile ── */
+@media (max-width: 520px) {
+  body.guest {
+    overflow: hidden;
+    height: 100dvh;
+  }
+}
+
 /* ── Responsive ── */
 @media (max-width: 520px) {
   main { padding: 0 16px 56px; }

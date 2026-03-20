@@ -101,11 +101,13 @@ function updateUI() {
     headerUser.classList.remove('hidden');
     userEmailDisplay.textContent = userMail || '';
     linksSection.classList.remove('hidden');
+    document.body.classList.remove('guest');
     loadMyLinks();
   } else {
     headerAuth.classList.remove('hidden');
     headerUser.classList.add('hidden');
     linksSection.classList.add('hidden');
+    document.body.classList.add('guest');
   }
 }
 
