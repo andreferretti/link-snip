@@ -14,7 +14,7 @@ beforeEach(() => {
 });
 
 describe("GET /:code (redirect)", () => {
-  it("redirects to the original URL with 301", async () => {
+  it("redirects to the original URL with 302", async () => {
     // 1st query: look up the short code
     mockQuery.mockResolvedValueOnce({
       rows: [{ id: 1, original_url: "https://example.com/page" }],
@@ -24,7 +24,7 @@ describe("GET /:code (redirect)", () => {
 
     const res = await request(app).get("/abc1234");
 
-    expect(res.status).toBe(301);
+    expect(res.status).toBe(302);
     expect(res.headers.location).toBe("https://example.com/page");
 
     // Verify a click was logged
